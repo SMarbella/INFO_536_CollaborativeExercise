@@ -1,5 +1,9 @@
 # Global Terrorism Database Collaborative Analysis
 
+# Class: INFO 536 - Data Science and Public Interests
+# Professor: Dr. Nitika Sharma
+# Names: Stephanie Marbella, Shreya Kolte, Venkateshwara Tallapaneni
+# Week 4 Assignment
 # Group 4
 
 # Load necessary libraries
@@ -32,7 +36,6 @@ targtype1 <- gtd_data %>%
   select(success,targtype1_txt) %>%
   mutate(targtype_no = 1)
 
-
 # creating a table/dataframe with success and targtype2 from gtd_data
 targtype2 <- gtd_data %>%
   filter(!is.na(targtype2)) %>%
@@ -53,12 +56,17 @@ all_targtypes <- all_targtypes %>%
   rename(target_title = targtype1_txt)
 
 # Role 1: Filter and group data by target type.
-
 data_grouped <- all_targtypes %>%
   group_by(target_title)
 
 # Role 2: Count the number of attacks on each target type.
-aggregate(data_grouped$targtype_no, by=list(Category=data_grouped$targtype_no), FUN=sum)
+# Counts the total number of attacks for each group type. Renames the columns from aggregated data into "Target Type" and "Successful Attacks."
+target_categories <- setNames(aggregate(data_grouped$targtype_no, by=list(Category=data_grouped$targtype_no), FUN=sum), c("Target Type", "Successful Attacks"))
+target_categories
+# Target Type Successful Attacks
+#           1             181691
+#           2              22288
+#           3               3528
 
 # Role 3: Visualize the attack frequency by target type.
 
