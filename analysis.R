@@ -21,20 +21,44 @@ sum(is.na(gtd_data$targtype1_txt)) # 0 NAs
 sum(is.na(gtd_data$targtype2)) # 170547 NAs
 sum(is.na(gtd_data$targtype2_txt)) # 0 NAs
 
-sum(is.na(gtd_data$targtype3)) # 0180515 NAs
+sum(is.na(gtd_data$targtype3)) # 180515 NAs
 sum(is.na(gtd_data$targtype3_txt)) # 0 NAs
 
 # Remove NAs
-gtd_clean <- gtd_data %>%
-  select(targtype1_txt, targtype2_txt, targtype3_txt, targtype1, targtype2, targtype3) %>%
-  filter(!is.na(targtype1), !is.na(targtype2), !is.na(targtype3))
 
-glimpse(gtd_clean)
+# creating a table/dataframe with success and targtype1 from gtd_data
+targtype1 <- gtd_data %>%
+  filter(!is.na(targtype1)) %>%
+  select(success,targtype1_txt) %>%
+  mutate(targtype_no = 1)
+
+
+# creating a table/dataframe with success and targtype2 from gtd_data
+targtype2 <- gtd_data %>%
+  filter(!is.na(targtype2)) %>%
+  select(success,targtype2_txt) %>%
+  mutate(targtype_no = 2)
+
+# creating a table/dataframe with success and targtype3 from gtd_data
+targtype3 <- gtd_data %>%
+  filter(!is.na(targtype3)) %>%
+  select(success,targtype3_txt) %>%
+  mutate(targtype_no = 3)
+
+# appending all the targtypes into one table/dataframe
+all_targtypes <- rbind(targtype1, setNames(targtype2, names(targtype1)), setNames(targtype3, names(targtype1)))
+
+# renaming the column name to targtype_txt to reflect the grouping
+all_targtypes <- all_targtypes %>% 
+  rename(target_title = targtype1_txt)
 
 # Role 1: Filter and group data by target type.
 
+data_grouped <- all_targtypes %>%
+  group_by(target_title)
 
 # Role 2: Count the number of attacks on each target type.
 
 
 # Role 3: Visualize the attack frequency by target type.
+
