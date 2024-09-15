@@ -58,7 +58,7 @@ data_grouped <- all_targtypes %>%
   group_by(target_title)
 
 # Role 2: Count the number of attacks on each target type.
-
+aggregate(data_grouped$targtype_no, by=list(Category=data_grouped$targtype_no), FUN=sum)
 
 # Role 3: Visualize the attack frequency by target type.
 
