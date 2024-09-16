@@ -69,4 +69,10 @@ target_categories
 #           3               3528
 
 # Role 3: Visualize the attack frequency by target type.
+targetcolors <- c("firebrick", "gold", "dodgerblue")
+ggplot(target_categories, aes(x = as.factor(`Target Type`), y = `Successful Attacks`)) +
+  geom_bar(stat = "identity", fill = targetcolors) +
+  labs(title = "Attack Frequency by Target Type",
+       x = "Target Type",
+       y = "Number of Successful Attacks")
 
